@@ -1,0 +1,20 @@
+.chat {
+    padding: 5px;
+    border: 2px #000 solid;
+    width: 250px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    height: 190px;
+    overflow: auto;
+}
+.chat .submit {
+	position: absolute;
+    bottom: 7px;
+    right: 12px;
+}
+.chat .input-chat {
+	position: absolute;
+    bottom: 7px;
+    width: 180px;
+}

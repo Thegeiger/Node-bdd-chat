@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+	<script>
+	  var socket = io.connect('http://localhost:5000');
+	  socket.on('response', function (data) {
+	      $("#msg").prepend("<p>" + data.sender + " : " + data.msg + "</p>");
+	  });
+	  function onSubmit () {
+	    var msg = $(".input-chat").val();
+	    if (msg == "" || msg == null) {
+	      return false;
+	    }
+	    $(".input-chat").val("");
+	    socket.emit('message', msg);
+	  }
+	</script>
+</head>
+
+<body>
+
+<div class="container">
+  <form class="chat" id="chat" method="POST" action="javascript:onSubmit();">
+    <div class="rep" id="msg">
+    </div>
+    <input type="text" name="msg" class="input-chat" style="position: fixed;">
+    <input type="submit" class="submit" style="position: fixed;">
+  </form>
+</div>
+
+
+</body>
+</html>
