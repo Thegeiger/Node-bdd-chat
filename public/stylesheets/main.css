@@ -18,3 +18,18 @@
     bottom: 7px;
     width: 180px;
 }
+table {
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.map td {
+    border: 1px solid #000;
+    width: 70px;
+    height: 40px;
+}
+
+.cursor {
+    cursor: pointer;
+    cursor: hand;
+}
