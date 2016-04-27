@@ -1,0 +1,18 @@
+.connection {
+	overflow: hidden;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: solid 1px #CCCCCC;
+    margin-top: 35%;
+    background-color: #BBBBBB;
+    padding-bottom: 10px;
+}
+
+.connection .row {
+	padding-top: 10px;
+}
+
+.connection .padd30 {
+	margin-left: 30px;
+}
