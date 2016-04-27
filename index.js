@@ -23,9 +23,9 @@ console.log("http server listening on %d", port);
 var connection    = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'root',
-  database : 'nodejs',
-  port     : '8889'
+  password : 'q^Q?girF',
+  database : 'game_base',
+  port     : '3306'
 });
 
 connection.connect();
@@ -34,20 +34,20 @@ var pool          = mysql.createPool({
   connectionLimit : 2,
   host            : 'localhost',
   user            : 'root',
-  password        : 'root',
-  port            : '8889'
+  password        : 'q^Q?girF',
+  database	      : 'game_base',
+  port            : '3306'
 });
 
-// Socket
-
-io.on('connection', function (socket) {
-  socket.on('message', function (data) {
-    io.sockets.emit('response', {
-      msg: data,
-      sender: user_name
-    });
-  });
-});
+        // Socket
+        io.on('connection', function (socket) {
+          socket.on('message', function (data) {
+            io.sockets.emit('response', {
+              msg: data,
+              sender: user_name
+            });
+          });
+        });
 
 // user var
 
@@ -56,16 +56,26 @@ var user_name;
 // ROUTES
 
 // GET
+app.get('/deconnection', function(request, response) {
+      response.clearCookie('user');
+      response.redirect('/connection');
+});
+
 app.get('/', function(request, response) {
     if (request.cookies.user == undefined || request.cookies.pass == undefined){
-      response.render('pages/connection', {
-        title: 'Hello - Please Login To Your Account',
-        err: ""
-        });
+      response.redirect('/connection');
     }
     else {
-        user_connection(request.cookies.user, request.cookies.pass, response, false);
+        console.log("user got cookie");
+        user_connection(request.cookies.user.user_name, request.cookies.user.user_password, response, false);
     }
+});
+
+app.get('/connection', function(request, response) {
+    response.render('pages/connection', {
+      title: 'Hello - Please Login To Your Account',
+      err: ""
+      });
 });
 
 app.get('/account', function(request, response) {
@@ -75,8 +85,12 @@ app.get('/account', function(request, response) {
   });
 });
 
+app.get('/my_game', function(request, response) {
+  response.render('pages/index', { title: 'My_game' });
+});
+
 // POST
-app.post('/', function(req, res){
+app.post('/connection', function(req, res){
   // if user try to connect
   var name      = req.body['name'];
   var password  = req.body['password'];
@@ -98,7 +112,7 @@ app.post('/account', function(req, res){
 
 // fonction js
 function user_connection (name, password, res, cook) {
-  connection.query("SELECT `name` FROM `user` WHERE `password` LIKE " + "'" + password + "'" + " AND `name` LIKE " + "'" + name + "'" , function(err, rows, fields) {
+  connection.query("SELECT `name` FROM `user` WHERE `password` LIKE " + connection.escape(password) + " AND `name` LIKE " + connection.escape(name) , function(err, rows, fields) {
     if (rows[0] == undefined)
       {
         console.log("account doesn't exit");
@@ -119,21 +133,17 @@ function user_connection (name, password, res, cook) {
       {
         console.log('connection');
         if (cook == true)
-          {
-            res.cookie('user', name, { maxAge: 900000 });
-            res.cookie('pass', password, { maxAge: 900000 });
-          }
+          res.cookie('user', { user_name : name, user_password : password }, { maxAge: 900000 });
         user_name = name;
-        res.render('pages/index', { title: 'My_game' });
+        res.redirect('/my_game');
       }
   });
 }
 
 function user_incription (name, password, res) {
-  connection.query("INSERT INTO `user` (`name`, `password`) VALUES (" + "'" + name + "', '" + password + "'" + ")", function(err, rows, fields) {
+  connection.query("INSERT INTO `user` (`name`, `password`) VALUES (" + connection.escape(name) + ", " + connection.escape(password) + ")", function(err, rows, fields) {
     if (err)
       {
-        console.log("internal server ddb error");
         res.render('pages/account', {
           title: 'Create a new account',
           err: "Name already exist"

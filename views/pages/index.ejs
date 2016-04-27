@@ -1,142 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <% include ../partials/header.ejs %>
-	<script>
-	  var socket = io.connect('http://localhost:5000');
-	  socket.on('response', function (data) {
-	      $("#msg").prepend("<p>" + data.sender + " : " + data.msg + "</p>");
-	  });
-	  function onSubmit () {
-	    var msg = $(".input-chat").val();
-	    if (msg == "" || msg == null) {
-	      return false;
-	    }
-	    $(".input-chat").val("");
-	    socket.emit('message', msg);
-	  }
-	</script>
-</head>
+	<head>
+	  <% include ../partials/header.ejs %>
+	</head>
 
-<body>
+	<body>
 
-<div class="container">
+	<div class="container">
+		<a href="/deconnection" class="bt_decconnection">Deconection</a>
+		<!-- MAP -->
+		<div class="map" id="map">
+		</div>
+		<!-- Info hero, tour adv -->
+		<div class="status" id="status">
 
-	<!-- MAP -->
-	<div class="map" id="map">
-	  <table>
-	   <tr>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	   <tr>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	   <tr>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	   <tr>
-	      <td></td>
-	      <td>Mate 1</td>
-	      <td>Hero</td>
-	      <td>Mate 2</td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	   <tr>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	   <tr>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	   <tr>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	      <td></td>
-	   </tr>
-	  </table>
+		</div>
+		<!-- CHAT -->
+	    <form class="chat" id="chat" method="POST" action="javascript:onSubmit();">
+	      <div class="rep" id="msg">
+	      </div>
+	      <input type="text" name="msg" class="input-chat" style="position: fixed;">
+	      <input type="submit" class="submit" name="send" value="send" style="position: fixed;">
+	    </form>
+
 	</div>
-	<!-- Info hero, tour adv -->
-	
-	<!-- CHAT -->
-    <form class="chat" id="chat" method="POST" action="javascript:onSubmit();">
-      <div class="rep" id="msg">
-      </div>
-      <input type="text" name="msg" class="input-chat" style="position: fixed;">
-      <input type="submit" class="submit" style="position: fixed;">
-    </form>
-
-</div>
 
 
-</body>
+	</body>
+		<script>
+		  var socket = io.connect('http://localhost:5000');
+		  socket.on('response', function (data) {
+		      $("#msg").prepend("<p>" + data.sender + " : " + data.msg + "</p>");
+		  });
+		  function onSubmit () {
+		    var msg = $(".input-chat").val();
+		    if (msg != "" && msg != null) {
+		      $(".input-chat").val("");
+		      socket.emit('message', msg);
+		    }
+		  };
+	   	var map = "<table >\n";
+	   	for (var y = 0; y != 17; ++y) {
+	   		map = map + "<tr>\n";
+	   		for (var x = 0; x != 20; ++x) {
+	   			map = map + "<td></td>\n";
+	   		}
+	   		map = map + "</tr>\n";
+	   	}
+	   	map = map + "</table>";
+	    $("#map").prepend(map);
+		</script>
 </html>

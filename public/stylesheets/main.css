@@ -1,23 +1,36 @@
 .chat {
     padding: 5px;
     border: 2px #000 solid;
-    width: 250px;
+    width: 25%;
     position: absolute;
     bottom: 5px;
     right: 5px;
-    height: 190px;
+    height: 20%;
     overflow: auto;
 }
+
 .chat .submit {
-	position: absolute;
-    bottom: 7px;
+    position: absolute;
+    bottom: 15px;
     right: 12px;
 }
+
 .chat .input-chat {
-	position: absolute;
-    bottom: 7px;
-    width: 180px;
+    position: absolute;
+    bottom: 12px;
+    width: 20%;
 }
+
+.status {
+    border: 2px #000 solid;
+    right: 5px;
+    height: 21%;
+    position: absolute;
+    bottom: 5px;
+    width: 71%;
+    margin-right: 27%;
+}
+
 table {
     border: 1px solid #000;
     border-collapse: collapse;
