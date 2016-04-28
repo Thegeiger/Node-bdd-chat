@@ -57,7 +57,7 @@ var basic_class = {
   }
 };
 
-var hero = {
+var personage = {
 	name: "",
 	_class: null,
 	lvl: 0,

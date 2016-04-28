@@ -71,6 +71,10 @@ app.get('/', function(request, response) {
     }
 });
 
+app.get('/menu', function(request, response) {
+  response.render("pages/menu", {user: user_name});
+});
+
 app.get('/connection', function(request, response) {
     response.render('pages/connection', {
       title: 'Hello - Please Login To Your Account',
